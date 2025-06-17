@@ -157,7 +157,7 @@ const TimelineComponent = ({ experienceData }: TimelineProps) => {
         </h2>
         <motion.div
           ref={timelineContainerRef}
-          className='relative mx-auto grid w-full max-w-none grid-cols-[1fr_min-content_1fr] gap-4 px-4 before:col-start-2 before:row-start-1 before:row-end-[-1] before:block before:w-[2px] before:bg-[var(--timeline-line)] before:opacity-100 before:content-[""] md:max-w-6xl md:px-8'
+          className='relative mx-auto grid w-full max-w-none grid-cols-[1fr_min-content_1fr] gap-4 px-4 before:absolute before:left-1/2 before:top-6 before:bottom-6 before:-translate-x-1/2 before:w-[2px] before:bg-[var(--timeline-line)] before:opacity-100 before:pointer-events-none before:z-0 before:content-[""] md:max-w-6xl md:px-8'
           variants={shouldReduceMotion ? undefined : timelineContainerVariants}
           initial={shouldReduceMotion ? undefined : 'hidden'}
           animate={shouldReduceMotion ? undefined : (isInView ? 'visible' : 'hidden')}
