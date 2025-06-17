@@ -24,4 +24,4 @@ exports[`ScrollDownButton Component renders correctly 1`] = `
     </button>
   </div>
 </div>
-`; 
+`;
