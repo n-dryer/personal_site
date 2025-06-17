@@ -1,4 +1,3 @@
-// ◀︎ LLM-modified - Enhanced responsive sizing using clamp() functions for better mobile/desktop scaling
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
