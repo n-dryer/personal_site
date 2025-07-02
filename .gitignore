@@ -30,6 +30,24 @@ yarn-error.log*
 *credentials.json*
 gha-creds-*.json
 
+# Additional security patterns
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*token*
+*secret*
+*password*
+*auth*
+service-account*.json
+firebase-adminsdk*.json
+google-credentials*.json
+aws-credentials*
+.aws/
+.gcp/
+.azure/
+
 # Temporary files
 *.temp.config.ts
 
