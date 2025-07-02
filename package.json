@@ -5,7 +5,7 @@
   "type": "module",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@types/react": "^19.1.4",
+    "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.5",
     "axios": "^1.8.4",
     "cmdk": "^1.1.1",
@@ -64,7 +64,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
-    "@types/jest": "^29.5.14",
+    "@types/jest": "^30.0.0",
     "@types/react-copy-to-clipboard": "^5.0.7",
     "@typescript-eslint/eslint-plugin": "8.33.0",
     "@typescript-eslint/parser": "8.33.0",
