@@ -50,7 +50,23 @@ export const useTheme = (): UseThemeReturn => {
     const htmlElement = document.documentElement;
 
     const newDatasetTheme = darkMode ? 'graphite-dark' : 'graphite-light';
-    htmlElement.dataset.theme = newDatasetTheme;
+    // Avoid redundant writes to minimize reflow; add a short-lived class for scoped transitions
+    if (htmlElement.dataset.theme !== newDatasetTheme) {
+      htmlElement.classList.add('theme-changing');
+      htmlElement.dataset.theme = newDatasetTheme;
+      // Remove transition scope class shortly after to limit global transitions
+      window.setTimeout(() => {
+        htmlElement.classList.remove('theme-changing');
+      }, 200);
+    }
+    if (darkMode) {
+      htmlElement.classList.add('dark');
+      // Hint browsers for built-in UI painting to prevent flashes
+      htmlElement.style.colorScheme = 'dark';
+    } else {
+      htmlElement.classList.remove('dark');
+      htmlElement.style.colorScheme = 'light';
+    }
 
     // Save preference to localStorage as 'light' or 'dark'
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');

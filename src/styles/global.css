@@ -29,15 +29,24 @@ html {
     scroll-behavior: smooth;
 }
 
-/* A broad transition can impact performance. Consider scoping this to specific elements if issues arise. */
-* {
+/* Theme transitions are now scoped to specific elements to avoid global perf costs. */
+html.theme-changing, html.theme-changing * {
     transition:
         background-color 0.15s ease,
         color 0.15s ease,
         border-color 0.15s ease;
 }
 
+/* When any modal is open, prevent body scroll but allow inner modal scroll */
+body.modal-open {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
 /* 4. APP & COMPONENT STYLES (formerly app.css) */
+/* Lucide icons follow currentColor by default; no theme-based overrides */
+
 .App {
     position: relative;
     overflow-x: hidden;

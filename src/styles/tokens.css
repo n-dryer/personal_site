@@ -49,6 +49,8 @@
   /* Motion */
   --motion-duration: 200ms;
   --motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Icon */
+  --icon-color: currentColor;
 }
 
 /* 2 · THEME TOKENS (GRAPHITE & GOLD) */
@@ -63,7 +65,8 @@
   --on-accent: #111111;
   --text-primary: #1C1C1C;
   --text-secondary: #5F5F5F;
-  --timeline-line: #5F5F5F;
+  --timeline-line: var(--accent);
+  color-scheme: light;
 }
 
 /* Dark Mode */
@@ -76,7 +79,8 @@
   --on-accent: #181818;
   --text-primary: #E0E0E0;
   --text-secondary: #9D9D9D;
-  --timeline-line: #E0E0E0;
+  --timeline-line: var(--accent);
+  color-scheme: dark;
 }
 
 /* 3 · GLOBAL ELEMENT DEFAULTS */

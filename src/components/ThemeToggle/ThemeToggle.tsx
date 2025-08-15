@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sun, Moon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, easeInOut } from 'framer-motion';
 import { useViewTransitions } from '../../hooks/useViewTransitions';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
@@ -50,10 +50,10 @@ const ThemeToggleComponent = ({ darkMode, toggleTheme }: ThemeToggleProps) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            transition={{ duration: 0.25, ease: easeInOut }}
             style={{ viewTransitionName: 'theme-icon-moon' }}
           >
-            <Moon className="h-8 w-8 text-accent" />
+            <Moon className="h-8 w-8" />
           </motion.div>
         ) : (
           <motion.div
@@ -62,10 +62,10 @@ const ThemeToggleComponent = ({ darkMode, toggleTheme }: ThemeToggleProps) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            transition={{ duration: 0.25, ease: easeInOut }}
             style={{ viewTransitionName: 'theme-icon-sun' }}
           >
-            <Sun className="h-8 w-8 text-text-primary" />
+            <Sun className="h-8 w-8" />
           </motion.div>
         )}
       </AnimatePresence>

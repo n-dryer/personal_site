@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { cubicBezier, motion, useInView } from 'framer-motion';
+import { motion, useInView, easeOut } from 'framer-motion';
 
 import { Experience } from '../../types';
 import { TimelineItem } from './TimelineItem';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 /**
  * Props for the Timeline component.
@@ -26,7 +26,7 @@ const timelineContainerVariants = {
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: cubicBezier(0.4, 0, 0.2, 1),
+      ease: easeOut,
       staggerChildren: 0.15, // 150ms stagger between timeline items
       delayChildren: 0.2, // 200ms delay before children start animating
     },

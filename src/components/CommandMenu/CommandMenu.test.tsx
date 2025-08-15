@@ -21,7 +21,7 @@ jest.mock('cmdk', () => {
   };
 });
 
-// Minimal Mock for framer-motion
+// Minimal Mock for framer-motion with cubicBezier stub
 jest.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...props }: React.PropsWithChildren<any>) => (
@@ -30,13 +30,15 @@ jest.mock('framer-motion', () => ({
       </div>
     ),
     button: ({ children, ...props }: React.PropsWithChildren<any>) => (
-        <button {...props}>{children}</button>
+      <button {...props}>{children}</button>
     )
   },
-  AnimatePresence: ({ children }: React.PropsWithChildren<any>) => (
-    <>{children}</>
-  ),
-  LayoutGroup: ({children}: React.PropsWithChildren<any>) => <>{children}</>
+  AnimatePresence: ({ children }: React.PropsWithChildren<any>) => <>{children}</>,
+  LayoutGroup: ({ children }: React.PropsWithChildren<any>) => <>{children}</>,
+  cubicBezier: (..._args: any[]) => 'ease',
+  easeIn: 'ease-in',
+  easeOut: 'ease-out',
+  easeInOut: 'ease-in-out',
 }));
 
 // Mock react-copy-to-clipboard

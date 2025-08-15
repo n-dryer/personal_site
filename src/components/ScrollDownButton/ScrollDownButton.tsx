@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Variants, easeInOut, easeOut, motion } from 'framer-motion';
 
 import { ChevronDown } from 'lucide-react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useReducedMotion } from 'hooks/useReducedMotion';
 
 /**
  * ScrollDownButtonComponent displays a button that scrolls the user to the timeline section.

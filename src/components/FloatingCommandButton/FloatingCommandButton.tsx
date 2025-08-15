@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { AnimatePresence, Variants, easeIn, easeInOut, easeOut, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+
 import { Command } from 'lucide-react';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
@@ -118,7 +119,7 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
       scale: 1,
       y: 0,
       transition: {
-        opacity: { duration: 1.0, ease: 'easeOut' }, // 1s fade-in
+        opacity: { duration: 1.0, ease: easeOut }, // 1s fade-in
         scale: {
           type: 'spring',
           stiffness: 300,
@@ -139,7 +140,7 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
       y: 16, // Synchronized initial position (translate-y-4 = 16px)
       transition: {
         duration: 0.2,
-        ease: 'easeIn'
+        ease: easeIn
       }
     },
     pulse: {
@@ -148,7 +149,7 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
         duration: 3.0, // Using --duration-pulse (3s)
         repeat: Infinity,
         repeatType: 'loop' as const,
-        ease: 'easeInOut'
+        ease: easeInOut
       }
     },
     hover: {
@@ -157,7 +158,7 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
         duration: 1.5,
         repeat: Infinity,
         repeatType: 'loop',
-        ease: 'easeInOut'
+        ease: easeInOut
       }
     },
     tap: {
@@ -203,7 +204,7 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
                           rotateX: 0,
                           transition: {
                             duration: prefersReducedMotion ? 0.01 : 0.4,
-                            ease: [0.34, 1.56, 0.64, 1] // Spring easing from design tokens
+                            ease: easeOut // Spring easing from design tokens
                           }
                         }}
                         exit={{
@@ -212,7 +213,7 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
                           rotateX: prefersReducedMotion ? 0 : 90,
                           transition: {
                             duration: prefersReducedMotion ? 0.01 : 0.3,
-                            ease: 'easeIn'
+                            ease: easeIn
                           }
                         }}
                         className="absolute inset-0 flex items-center"
@@ -244,7 +245,7 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
 
           <motion.button
             onClick={toggleCommandMenu}
-            className="glass-surface focus-visible:ring-accent/40 flex items-center justify-center rounded-full bg-accent text-on-accent shadow-lg focus:outline-none focus-visible:ring-2"
+            className="focus-visible:ring-accent/40 flex items-center justify-center rounded-full bg-accent text-on-accent shadow-lg focus:outline-none focus-visible:ring-2"
             style={{
               width: 'clamp(2.75rem, 4vw, 3.5rem)',
               height: 'clamp(2.75rem, 4vw, 3.5rem)',
@@ -266,8 +267,9 @@ const FloatingCommandButtonComponent = ({ toggleCommandMenu }: FloatingCommandBu
           >
             <Command
               style={{
-                width: 'clamp(1rem, 2.5vw, 1.5rem)', // Responsive icon: 16px mobile to 24px desktop
+                width: 'clamp(1rem, 2.5vw, 1.5rem)',
                 height: 'clamp(1rem, 2.5vw, 1.5rem)',
+                color: '#111111'  // Use consistent dark color for icon in both themes
               }}
             />
           </motion.button>

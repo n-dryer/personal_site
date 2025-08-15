@@ -2,9 +2,9 @@ import { AnimatePresence, easeInOut, motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 
 import { Command } from 'lucide-react';
-import { ThemeToggle } from '@/components';
-import { UserData } from '@/types';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { ThemeToggle } from '..';
+import { UserData } from '../../types';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 /**
  * Props for the Header component.

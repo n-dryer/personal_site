@@ -1,6 +1,6 @@
-import { AnimatePresence, cubicBezier, easeIn, easeInOut, easeOut, motion } from 'framer-motion';
+import { AnimatePresence, motion, easeOut } from 'framer-motion';
 
-import { Experience } from '@/types';
+import { Experience } from '../../types';
 import React from 'react';
 
 /**
@@ -33,7 +33,7 @@ const timelineItemVariants = {
     scale: 1,
     transition: {
       duration: 0.5,
-      ease: cubicBezier(0.4, 0, 0.2, 1),
+      ease: easeOut,
     },
   },
 };
@@ -89,11 +89,10 @@ const TimelineItemComponent = ({
           <motion.div
             layout='position'
             id={`timeline-content-${id}`}
-            className={`timeline-card-wrapper relative w-full md:w-auto ${
-              isExpanded
-                ? 'z-20 md:max-w-md lg:max-w-lg xl:max-w-xl'
-                : 'z-10 md:max-w-sm lg:max-w-md xl:max-w-lg'
-            }`}
+            className={`timeline-card-wrapper relative w-full md:w-auto ${isExpanded
+              ? 'z-20 md:max-w-md lg:max-w-lg xl:max-w-xl'
+              : 'z-10 md:max-w-sm lg:max-w-md xl:max-w-lg'
+              }`}
             style={{
               marginTop: '0',
             }}
@@ -102,12 +101,12 @@ const TimelineItemComponent = ({
               transition: shouldReduceMotion
                 ? { duration: 0 }
                 : {
-                    duration: 0.4,
-                    ease: cubicBezier(0.4, 0, 0.2, 1),
-                    type: 'spring',
-                    stiffness: 300,
-                    damping: 30,
-                  },
+                  duration: 0.4,
+                  ease: easeOut,
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 30,
+                },
             }}
           >
             <div className='flex items-baseline gap-2'>
@@ -120,9 +119,8 @@ const TimelineItemComponent = ({
               className={`timeline-card-hover timeline-card-focus glass-surface relative text-left ${isExpanded ? 'p-[var(--space-5)]' : 'p-4'} cursor-pointer border border-white/10 rounded-lg shadow-sm ${shouldReduceMotion ? '' : 'transition-all duration-300'}`}
               data-view-transition-name={`timeline-card-${itemIndex + 1}`}
               style={{
-                '--view-transition-name': `timeline-card-${
-                  itemIndex + 1
-                }`,
+                '--view-transition-name': `timeline-card-${itemIndex + 1
+                  }`,
                 backgroundColor: 'var(--bg-primary)',
               } as React.CSSProperties}
               onClick={() => {
@@ -165,14 +163,12 @@ const TimelineItemComponent = ({
                   <motion.div
                     id={`timeline-expanded-${id}`}
                     className='timeline-expanded-content'
-                    data-view-transition-name={`expanded-content-${
-                      itemIndex + 1
-                    }`}
+                    data-view-transition-name={`expanded-content-${itemIndex + 1
+                      }`}
                     style={{
                       overflow: 'hidden',
-                      '--view-transition-name': `expanded-content-${
-                        itemIndex + 1
-                      }`,
+                      '--view-transition-name': `expanded-content-${itemIndex + 1
+                        }`,
                     } as React.CSSProperties}
                     initial={
                       shouldReduceMotion
@@ -183,29 +179,29 @@ const TimelineItemComponent = ({
                       shouldReduceMotion
                         ? undefined
                         : {
-                            opacity: 1,
-                            height: 'auto',
-                            transition: {
-                              duration: 0.3,
-                               ease: cubicBezier(0.4, 0, 0.2, 1),
-                              staggerChildren: 0.1,
-                              type: 'spring',
-                              stiffness: 300,
-                              damping: 30,
-                            },
-                          }
+                          opacity: 1,
+                          height: 'auto',
+                          transition: {
+                            duration: 0.3,
+                            ease: easeOut,
+                            staggerChildren: 0.1,
+                            type: 'spring',
+                            stiffness: 300,
+                            damping: 30,
+                          },
+                        }
                     }
                     exit={
                       shouldReduceMotion
                         ? undefined
                         : {
-                            opacity: 0,
-                            height: 0,
-                            transition: {
-                              duration: 0.2,
-                              ease: cubicBezier(0.4, 0, 0.2, 1),
-                            },
-                          }
+                          opacity: 0,
+                          height: 0,
+                          transition: {
+                            duration: 0.2,
+                            ease: easeOut,
+                          },
+                        }
                     }
                   >
                     <motion.div
@@ -265,9 +261,8 @@ const TimelineItemComponent = ({
           aria-expanded={isExpanded}
           aria-controls={`timeline-content-${id}`}
           aria-labelledby={`timeline-title-${id}`}
-          aria-label={`${
-            isExpanded ? 'Collapse' : 'Expand'
-          } details for ${title} at ${company}`}
+          aria-label={`${isExpanded ? 'Collapse' : 'Expand'
+            } details for ${title} at ${company}`}
           aria-describedby={`timeline-content-${id}`}
         >
           <IconComponent size={20} />

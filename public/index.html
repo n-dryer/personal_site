@@ -20,13 +20,15 @@
   <title>Nathan Dryer | Portfolio</title>
   <script>
     (function () {
-      const theme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (theme === 'dark' || (!theme && prefersDark)) {
-        document.documentElement.dataset.theme = 'graphite-dark';
-      } else {
-        document.documentElement.dataset.theme = 'graphite-light';
-      }
+      try {
+        var d = document.documentElement;
+        var theme = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = theme === 'dark' || (!theme && prefersDark);
+        d.dataset.theme = isDark ? 'graphite-dark' : 'graphite-light';
+        d.classList[isDark ? 'add' : 'remove']('dark');
+        d.style.colorScheme = isDark ? 'dark' : 'light';
+      } catch (e) { /* no-op */ }
     })();
   </script>
 </head>

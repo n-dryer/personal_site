@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import React from 'react';
-import { Skill } from '../../types'; // Adjusted import path
-import { Skills } from './Skills'; // Adjusted import path
+import { Skill } from '../../types';
+import { Skills } from './Skills';
 
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
@@ -25,68 +25,34 @@ jest.mock('framer-motion', () => ({
 
 describe('Skills Component', () => {
   const mockSkillsData: Skill[] = [
-    {
-      id: 'skill-1',
-      name: 'Test Skill 1',
-      level: 95,
-    },
-    {
-      id: 'skill-2',
-      name: 'Test Skill 2',
-      level: 85,
-    },
-    {
-      id: 'skill-3',
-      name: 'Test Skill 3',
-      level: 75,
-    },
+    { id: 's1', name: 'Tech One', category: 'frameworks_libraries', tier: 'Expert', evidence: 'Short proof.' },
+    { id: 's2', name: 'Tech Two', category: 'frameworks_libraries', tier: 'Proficient', evidence: 'Short proof.' },
+    { id: 's3', name: 'Lead One', category: 'design_ux', tier: 'Familiar', evidence: 'Short proof.' },
   ];
 
   it('should display all skills initially', () => {
     render(<Skills skillsData={mockSkillsData} />);
-    expect(screen.getByText('Test Skill 1')).toBeInTheDocument();
-    expect(screen.getByText('Test Skill 2')).toBeInTheDocument();
-    expect(screen.getByText('Test Skill 3')).toBeInTheDocument();
+    expect(screen.getByText('Tech One')).toBeInTheDocument();
+    expect(screen.getByText('Tech Two')).toBeInTheDocument();
+    expect(screen.getByText('Lead One')).toBeInTheDocument();
   });
 
-  it('should filter skills when a category is selected and show the category description', () => {
+  it('should filter to Design & UX when category tab is selected', () => {
     render(<Skills skillsData={mockSkillsData} />);
-
-    const categoryButtons = screen.getAllByRole('button');
-    const aiMlButton = categoryButtons.find(
-      button => button.textContent === 'AI/ML & Product'
-    );
-
-    if (aiMlButton) {
-      fireEvent.click(aiMlButton);
-      expect(
-        screen.getByText(/Artificial intelligence, machine learning, and product development expertise/i)
-      ).toBeInTheDocument();
-    } else {
-      throw new Error('AI/ML & Product category button not found');
-    }
+    const designUxButton = screen.getByRole('button', { name: 'Design & UX' });
+    fireEvent.click(designUxButton);
+    expect(screen.getByText('Lead One')).toBeInTheDocument();
+    expect(screen.queryByText('Tech One')).not.toBeInTheDocument();
   });
 
-  it('should reset to display all skills when "All Skills" is clicked after a filter', () => {
+  it('should reset to display all skills when "All" is clicked after a filter', () => {
     render(<Skills skillsData={mockSkillsData} />);
-
-    const categoryButtons = screen.getAllByRole('button');
-    const aiMlButton = categoryButtons.find(
-      button => button.textContent === 'AI/ML & Product'
-    );
-    const allSkillsButton = categoryButtons.find(
-      button => button.textContent === 'All Skills'
-    );
-
-    if (aiMlButton && allSkillsButton) {
-      fireEvent.click(aiMlButton);
-      fireEvent.click(allSkillsButton);
-
-      expect(screen.getByText('Test Skill 1')).toBeInTheDocument();
-      expect(screen.getByText('Test Skill 2')).toBeInTheDocument();
-      expect(screen.getByText('Test Skill 3')).toBeInTheDocument();
-    } else {
-      throw new Error('Required category buttons not found for reset test');
-    }
+    const designUxButton = screen.getByRole('button', { name: 'Design & UX' });
+    fireEvent.click(designUxButton);
+    const allButton = screen.getByRole('button', { name: 'All' });
+    fireEvent.click(allButton);
+    expect(screen.getByText('Tech One')).toBeInTheDocument();
+    expect(screen.getByText('Tech Two')).toBeInTheDocument();
+    expect(screen.getByText('Lead One')).toBeInTheDocument();
   });
 }); 
