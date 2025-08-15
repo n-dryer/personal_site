@@ -3,7 +3,7 @@ import { Command } from 'cmdk';
 import { motion, AnimatePresence, LayoutGroup, cubicBezier, easeIn, easeOut, easeInOut } from 'framer-motion';
 // Clipboard handled via native API
 import { Mail, Download, Eye, Code, Linkedin, Github, X, Check } from 'lucide-react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useReducedMotion } from 'hooks/useReducedMotion';
 
 /**
  * Props for the CommandMenu component.
