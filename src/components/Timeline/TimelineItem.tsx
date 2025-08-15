@@ -1,6 +1,7 @@
+import { AnimatePresence, cubicBezier, easeIn, easeInOut, easeOut, motion } from 'framer-motion';
+
+import { Experience } from '@/types';
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Experience } from '../../types';
 
 /**
  * Props for the TimelineItem component.
@@ -16,6 +17,7 @@ type TimelineItemProps = {
   setTimelineRef: (id: string) => (el: HTMLDivElement | null) => void;
   shouldReduceMotion: boolean;
   itemIndex: number;
+  itemsCount: number;
 };
 
 // Animation variants for individual timeline items
@@ -31,7 +33,7 @@ const timelineItemVariants = {
     scale: 1,
     transition: {
       duration: 0.5,
-      ease: [0.4, 0, 0.2, 1],
+      ease: cubicBezier(0.4, 0, 0.2, 1),
     },
   },
 };
@@ -53,12 +55,29 @@ const TimelineItemComponent = ({
   setTimelineRef,
   shouldReduceMotion,
   itemIndex,
+  itemsCount,
 }: TimelineItemProps): React.ReactElement => {
   const { id, title, company, location, date, technologies, icon: IconComponent } = item;
 
   return (
     <React.Fragment>
-      <div style={{ gridColumn: isLeftSide ? 1 : 3, gridRow: itemIndex + 1 }}>
+      {/* Mobile single-column connectors: left-anchored segment + dot per item */}
+      <div className="relative md:hidden" style={{ gridRow: itemIndex + 1 }}>
+        {/* Top segment (hidden for first item) */}
+        {itemIndex > 0 && (
+          <span className='absolute left-4 top-0 h-[calc(50%-6px)] w-px bg-accent' aria-hidden="true" />
+        )}
+        {/* Bottom segment (hidden for last item) */}
+        {itemIndex < (itemsCount - 1) && (
+          <span className='absolute left-4 bottom-0 h-[calc(50%-6px)] w-px bg-accent' aria-hidden="true" />
+        )}
+        {/* Dot */}
+        <span className='absolute left-4 top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-accent shadow-md' aria-hidden="true" />
+      </div>
+      <div
+        className={`${isLeftSide ? 'md:col-start-1' : 'md:col-start-3'}`}
+        style={{ gridRow: itemIndex + 1 }}
+      >
         <motion.div
           ref={setTimelineRef(id)}
           className="timeline-grid-item"
@@ -84,17 +103,17 @@ const TimelineItemComponent = ({
                 ? { duration: 0 }
                 : {
                     duration: 0.4,
-                    ease: [0.4, 0, 0.2, 1],
+                    ease: cubicBezier(0.4, 0, 0.2, 1),
                     type: 'spring',
                     stiffness: 300,
                     damping: 30,
                   },
             }}
           >
-            <div className='timeline-year-label-above'>
-              <p className='timeline-year-text font-semibold text-text-secondary text-timeline-year whitespace-nowrap transition-all duration-normal'>
+            <div className='flex items-baseline gap-2'>
+              <span className='inline-flex items-center rounded-md bg-accent px-2 py-[var(--space-1)] text-on-accent text-xs font-semibold whitespace-nowrap'>
                 {getYearRange(date)}
-              </p>
+              </span>
             </div>
             <motion.div
               layout='position'
@@ -126,16 +145,12 @@ const TimelineItemComponent = ({
               <motion.div layout='position'>
                 <h3
                   id={`timeline-title-${id}`}
-                  className={`${
-                    isExpanded ? 'mb-3 text-xl' : 'mb-2 text-lg'
-                  } font-semibold leading-tight text-text-primary`}
+                  className={`${isExpanded ? 'mb-3 text-lg md:text-xl' : 'mb-2 text-base md:text-lg'} font-semibold leading-tight text-text-primary`}
                 >
                   {company}
                 </h3>
                 <p
-                  className={`${
-                    isExpanded ? 'mb-3 text-lg' : 'mb-2 text-base'
-                  } font-medium leading-snug text-text-secondary`}
+                  className={`${isExpanded ? 'mb-3 text-base md:text-lg' : 'mb-2 text-sm md:text-base'} font-medium leading-snug text-text-secondary`}
                 >
                   {title}
                 </p>
@@ -172,7 +187,7 @@ const TimelineItemComponent = ({
                             height: 'auto',
                             transition: {
                               duration: 0.3,
-                              ease: [0.4, 0, 0.2, 1],
+                               ease: cubicBezier(0.4, 0, 0.2, 1),
                               staggerChildren: 0.1,
                               type: 'spring',
                               stiffness: 300,
@@ -188,7 +203,7 @@ const TimelineItemComponent = ({
                             height: 0,
                             transition: {
                               duration: 0.2,
-                              ease: [0.4, 0, 0.2, 1],
+                              ease: cubicBezier(0.4, 0, 0.2, 1),
                             },
                           }
                     }
@@ -227,9 +242,19 @@ const TimelineItemComponent = ({
           </motion.div>
         </motion.div>
       </div>
-      <div style={{ gridColumn: 2, gridRow: itemIndex + 1 }} className="flex items-center justify-center">
+      {/* Desktop center column: per-item segmented connectors and dot */}
+      <div style={{ gridColumn: 2, gridRow: itemIndex + 1 }} className="hidden md:flex relative items-center justify-center">
+        {/* Top segment (hidden for first item) */}
+        {itemIndex > 0 && (
+          <span className='absolute h-[calc(50%-24px)] w-px bg-accent' style={{ top: 0 }} aria-hidden="true" />
+        )}
+        {/* Bottom segment (hidden for last item) */}
+        {itemIndex < (itemsCount - 1) && (
+          <span className='absolute h-[calc(50%-24px)] w-px bg-accent' style={{ bottom: 0 }} aria-hidden="true" />
+        )}
+        {/* Dot + button */}
         <button
-          className={`timeline-icon timeline-icon-focus glass-surface flex h-12 min-h-[44px] w-12 min-w-[44px] cursor-pointer items-center justify-center rounded-full bg-accent text-on-accent shadow-lg`}
+          className={`timeline-icon timeline-icon-focus flex h-12 min-h-[44px] w-12 min-w-[44px] cursor-pointer items-center justify-center rounded-full bg-accent text-on-accent shadow-lg`}
           onClick={() => {
             toggleExpand(id);
             announceStateChange(id, !isExpanded);

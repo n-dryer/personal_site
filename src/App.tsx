@@ -15,7 +15,9 @@ import {
 // Import the useTheme hook
 import { useTheme, useCommandMenu } from './hooks'; // Assuming useTheme is in './hooks'
 
-import { experienceData, skillsData, userData } from './__mocks__/data.mock';
+import { experienceData } from 'content/experience';
+import { skillsData } from 'content/skills';
+import { userData } from 'content/user';
 import { Layout } from './layouts/Layout';
 
 /**

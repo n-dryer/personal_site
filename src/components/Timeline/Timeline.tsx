@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { cubicBezier, motion, useInView } from 'framer-motion';
+
 import { Experience } from '../../types';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { TimelineItem } from './TimelineItem';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
  * Props for the Timeline component.
@@ -25,7 +26,7 @@ const timelineContainerVariants = {
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: [0.4, 0, 0.2, 1],
+      ease: cubicBezier(0.4, 0, 0.2, 1),
       staggerChildren: 0.15, // 150ms stagger between timeline items
       delayChildren: 0.2, // 200ms delay before children start animating
     },
@@ -157,7 +158,7 @@ const TimelineComponent = ({ experienceData }: TimelineProps) => {
         </h2>
         <motion.div
           ref={timelineContainerRef}
-          className='relative mx-auto grid w-full max-w-none grid-cols-[1fr_min-content_1fr] gap-4 px-4 before:absolute before:left-1/2 before:top-6 before:bottom-6 before:-translate-x-1/2 before:w-[2px] before:bg-[var(--timeline-line)] before:opacity-100 before:pointer-events-none before:z-0 before:content-[""] md:max-w-6xl md:px-8'
+          className='relative mx-auto grid w-full max-w-none grid-cols-1 gap-4 px-4 md:max-w-6xl md:grid-cols-[1fr_min-content_1fr] md:px-8'
           variants={shouldReduceMotion ? undefined : timelineContainerVariants}
           initial={shouldReduceMotion ? undefined : 'hidden'}
           animate={shouldReduceMotion ? undefined : (isInView ? 'visible' : 'hidden')}
@@ -175,6 +176,7 @@ const TimelineComponent = ({ experienceData }: TimelineProps) => {
               setTimelineRef={setTimelineRef}
               shouldReduceMotion={shouldReduceMotion}
               itemIndex={index}
+              itemsCount={experienceData.length}
             />
           ))}
         </motion.div>

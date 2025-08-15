@@ -3,6 +3,13 @@ import globals from 'globals';
 import reactPlugin from 'eslint-plugin-react';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import importPlugin from 'eslint-plugin-import';
+// Add TS resolver to support path aliases
+const tsResolver = {
+  typescript: {
+    // Use project's tsconfig for paths
+    project: './tsconfig.json',
+  },
+};
 import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';
 import typescriptEslintParser from '@typescript-eslint/parser';
 import tailwindcssPlugin from 'eslint-plugin-tailwindcss';
@@ -45,9 +52,8 @@ export default [
         version: 'detect',
       },
       'import/resolver': {
-        node: {
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        },
+        node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+        ...tsResolver,
       },
       'import/parsers': {
         '@typescript-eslint/parser': ['.ts', '.tsx'],

@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "resolutions": {
+    "brace-expansion": "1.1.11",
+    "postcss": ">=8.4.31",
+    "nth-check": ">=2.1.1",
+    "webpack-dev-server": "4.15.2"
+  },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@types/react": "^19.1.8",
@@ -14,7 +20,7 @@
     "lucide-react": "^0.511.0",
     "nth-check": "^2.1.1",
     "react": "^19.0.0",
-    "react-copy-to-clipboard": "^5.1.0",
+    
     "react-dom": "^19.0.0",
     "react-error-boundary": "^4.0.13",
     "react-intersection-observer": "^9.16.0",
@@ -35,6 +41,7 @@
     "lint:fix": "eslint src --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
+  "homepage": "https://nathandryer.com",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -48,9 +55,66 @@
     ]
   },
   "jest": {
+    "displayName": "frontend",
+    "rootDir": ".",
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!src/setupTests.ts",
+      "!src/types/**",
+      "!src/assets/**",
+      "!src/styles/**",
+      "!src/constants/**",
+      "!src/__mocks__/**"
+    ],
+    "coverageReporters": ["text", "lcov", "html"],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": [
+        "babel-jest",
+        {
+          "presets": [
+            ["@babel/preset-env", { "targets": { "node": "current" } }],
+            ["@babel/preset-react", { "runtime": "automatic" }],
+            "@babel/preset-typescript"
+          ]
+        }
+      ]
+    },
+    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(framer-motion|react-scroll-parallax)/)"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/tests/",
+      "<rootDir>/test-results/",
+      "<rootDir>/playwright-report/",
+      ".*\\.spec\\.ts$",
+      ".*\\.e2e\\.ts$",
+      ".*playwright.*"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/",
+      "/test-results/",
+      "/playwright-report/",
+      "src/index.tsx",
+      "src/setupTests.ts",
+      "src/types/",
+      "src/assets/",
+      "src/styles/",
+      "src/constants/",
+      "src/__mocks__/"
     ]
   },
   "devDependencies": {
@@ -67,8 +131,8 @@
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
     "@types/react-copy-to-clipboard": "^5.0.7",
-    "@typescript-eslint/eslint-plugin": "8.33.0",
-    "@typescript-eslint/parser": "8.33.0",
+    "@typescript-eslint/eslint-plugin": "8.35.1",
+    "@typescript-eslint/parser": "8.35.1",
     "autoprefixer": "^10.4.20",
     "babel-jest": "^29.7.0",
     "eslint": "9.23.0",
@@ -80,8 +144,9 @@
     "globals": "15.15.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-transform-stub": "^2.0.0",
-    "postcss": "^8.5.0",
+    "postcss": "8.4.31",
     "serve": "^14.2.4",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

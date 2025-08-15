@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { Command } from 'cmdk';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import { motion, AnimatePresence, LayoutGroup, cubicBezier, easeIn, easeOut, easeInOut } from 'framer-motion';
+// Clipboard handled via native API
 import { Mail, Download, Eye, Code, Linkedin, Github, X, Check } from 'lucide-react';
-import { useReducedMotion } from '../../hooks/useReducedMotion'; // Adjusted import path
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
  * Props for the CommandMenu component.
@@ -42,12 +42,20 @@ const CommandMenuComponent = ({ isOpen, setIsOpen }: CommandMenuProps) => {
   const [copied, setCopied] = useState<boolean>(false);
   const shouldReduceMotion = useReducedMotion();
 
-  const handleCopyEmail = useCallback((): void => {
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-      setIsOpen(false);
-    }, 1500);
+  const handleCopyEmail = useCallback(async (): Promise<void> => {
+    try {
+      // Prefer content source of truth
+      const { userData } = await import('content/user');
+      await navigator.clipboard.writeText(userData.email);
+      setCopied(true);
+    } catch (error) {
+      console.error('Failed to copy email:', error);
+    } finally {
+      setTimeout(() => {
+        setCopied(false);
+        setIsOpen(false);
+      }, 1500);
+    }
   }, [setIsOpen]);
 
   const scrollToSection = useCallback(
@@ -130,20 +138,32 @@ const CommandMenuComponent = ({ isOpen, setIsOpen }: CommandMenuProps) => {
         keywords: 'contact mail reach',
         action: handleCopyEmail,
       },
-      {
-        id: 'linkedin',
-        name: 'LinkedIn Profile',
-        icon: <Linkedin className='h-5 w-5' />,
-        keywords: 'social network professional connect',
-        action: () => openLink('https://linkedin.com/in/nathan-dryer'), // Placeholder URL
-      },
-      {
-        id: 'github',
-        name: 'GitHub Profile',
-        icon: <Github className='h-5 w-5' />,
-        keywords: 'code repository projects source',
-        action: () => openLink('https://github.com/nathan-dryer'), // Placeholder URL
-      },
+          ...(() => {
+            // Centralize external links from content
+            try {
+              // dynamic require avoids ESM top-level import interference with test mocks
+              const { userData } = require('content/user');
+              const byName = Object.fromEntries(userData.socialLinks.map(l => [l.name.toLowerCase(), l.url]));
+              return [
+                {
+                  id: 'linkedin',
+                  name: 'LinkedIn Profile',
+                  icon: <Linkedin className='h-5 w-5' />,
+                  keywords: 'social network professional connect',
+                  action: () => openLink(byName['linkedin'] ?? 'https://linkedin.com'),
+                },
+                {
+                  id: 'github',
+                  name: 'GitHub Profile',
+                  icon: <Github className='h-5 w-5' />,
+                  keywords: 'code repository projects source',
+                  action: () => openLink(byName['github'] ?? 'https://github.com'),
+                },
+              ];
+            } catch {
+              return [] as any[];
+            }
+          })(),
     ],
   };
 
@@ -153,14 +173,14 @@ const CommandMenuComponent = ({ isOpen, setIsOpen }: CommandMenuProps) => {
       opacity: 1,
       transition: {
         duration: shouldReduceMotion ? 0.01 : 0.2,
-        ease: 'easeOut'
+        ease: easeOut
       }
     },
     exit: {
       opacity: 0,
       transition: {
         duration: shouldReduceMotion ? 0.01 : 0.15,
-        ease: 'easeIn'
+        ease: easeIn
       }
     }
   };
@@ -177,10 +197,10 @@ const CommandMenuComponent = ({ isOpen, setIsOpen }: CommandMenuProps) => {
       y: 0,
       transition: {
         duration: shouldReduceMotion ? 0.01 : 0.25,
-        ease: [0.34, 1.56, 0.64, 1],
+        ease: cubicBezier(0.34, 1.56, 0.64, 1),
         layout: {
           duration: shouldReduceMotion ? 0.01 : 0.3,
-          ease: 'easeOut'
+          ease: easeOut
         }
       }
     },
@@ -190,10 +210,10 @@ const CommandMenuComponent = ({ isOpen, setIsOpen }: CommandMenuProps) => {
       y: shouldReduceMotion ? 0 : -10,
       transition: {
         duration: shouldReduceMotion ? 0.01 : 0.2,
-        ease: 'easeOut',
+        ease: easeOut,
         layout: {
           duration: shouldReduceMotion ? 0.01 : 0.2,
-          ease: 'easeIn'
+          ease: easeIn
         }
       }
     }
@@ -236,7 +256,7 @@ const CommandMenuComponent = ({ isOpen, setIsOpen }: CommandMenuProps) => {
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9, rotate: 0 }}
                 >
-                  <X className='h-5 w-5' />
+                  <X className='lucide h-5 w-5' />
                 </motion.button>
               </div>
               <Command className='w-full' role='menu' aria-labelledby='command-menu-title'>

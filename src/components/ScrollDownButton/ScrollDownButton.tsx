@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion, Variants } from 'framer-motion';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Variants, easeInOut, easeOut, motion } from 'framer-motion';
+
 import { ChevronDown } from 'lucide-react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
  * ScrollDownButtonComponent displays a button that scrolls the user to the timeline section.
@@ -53,7 +55,7 @@ const ScrollDownButtonComponent = (): React.ReactElement | null => {
         duration: 2.0, // 2s bounce duration
         repeat: Infinity,
         repeatType: 'loop' as const,
-        ease: 'easeInOut'
+        ease: easeInOut
       }
     },
     pulse: {
@@ -62,7 +64,7 @@ const ScrollDownButtonComponent = (): React.ReactElement | null => {
         duration: 3.0,
         repeat: Infinity,
         repeatType: 'loop' as const,
-        ease: 'easeInOut'
+        ease: easeInOut
       }
     },
     hover: {
@@ -81,21 +83,7 @@ const ScrollDownButtonComponent = (): React.ReactElement | null => {
     }
   };
 
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      setPrefersReducedMotion(mediaQuery.matches);
-
-      const handleChange = (e: MediaQueryListEvent) => {
-        setPrefersReducedMotion(e.matches);
-      };
-
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    }
-  }, []);
+  const prefersReducedMotion = useReducedMotion();
 
   // Switch to bounce after a delay
   useEffect(() => {
@@ -115,7 +103,7 @@ const ScrollDownButtonComponent = (): React.ReactElement | null => {
       initial={{ opacity: 0, scale: 0.4, y: 16 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{
-        opacity: { duration: 1.0, ease: 'easeOut' },
+        opacity: { duration: 1.0, ease: easeOut },
         scale: { type: 'spring', stiffness: 300, damping: 20, duration: 0.5 },
         y: { type: 'spring', stiffness: 300, damping: 20, duration: 1.0 }
       }}
@@ -145,6 +133,7 @@ const ScrollDownButtonComponent = (): React.ReactElement | null => {
           style={{
             width: 'clamp(1rem, 2.5vw, 1.5rem)',
             height: 'clamp(1rem, 2.5vw, 1.5rem)',
+            color: '#111111'  // Use consistent dark color for icon in both themes
           }}
         />
       </motion.button>

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, easeInOut, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+
 import { Command } from 'lucide-react';
-import { ThemeToggle } from '..'; // Path to be confirmed/updated after ThemeToggle refactor
-import { UserData } from '../../types'; // Adjusted import path
-import { useReducedMotion } from '../../hooks/useReducedMotion'; // Adjusted import path
+import { ThemeToggle } from '@/components';
+import { UserData } from '@/types';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /**
  * Props for the Header component.
@@ -72,7 +73,7 @@ const HeaderComponent = ({
 
   return (
     <header
-      className='relative flex h-screen items-center justify-center overflow-hidden bg-bg-primary pb-20 pt-[var(--space-section)] text-text-primary md:pb-32'
+      className='relative flex min-h-screen items-center justify-center bg-bg-primary pb-20 pt-[var(--space-section)] text-text-primary md:pb-32'
       id='top'
     >
       {/* Theme Toggle - Positioned in top-right corner */}
@@ -89,13 +90,13 @@ const HeaderComponent = ({
         <div className='flex h-full flex-col items-center justify-center text-center'>
           {/* Name and Subtitle - Above Command Prompt */}
           <motion.div
-            className='mb-8 max-w-xl text-center'
+            className='mb-8 text-center'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             <motion.h1
-              className='mb-3 font-display text-6xl font-bold tracking-tight text-text-primary md:text-7xl'
+              className='mb-2 font-display text-[clamp(1.75rem,9vw,5rem)] font-bold tracking-tight text-text-primary'
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -108,7 +109,7 @@ const HeaderComponent = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <p className='whitespace-nowrap text-2xl font-medium text-text-secondary md:text-3xl'>
+              <p className='md:whitespace-nowrap text-[clamp(1rem,2.2vw,2rem)] md:text-[clamp(1.25rem,2.6vw,2.25rem)] font-medium text-text-secondary'>
                 {userData.bioLine}
               </p>
             </motion.div>
@@ -129,9 +130,9 @@ const HeaderComponent = ({
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98, y: 0 }}
                 aria-label='Open command palette'
-                aria-keyshortcuts='⌘+K'
+                aria-keyshortcuts={isMac ? 'Meta+K' : 'Control+K'}
               >
-                <Command size={18} className='mr-3' />
+                <Command size={18} className='mr-3' style={{ color: '#111111' }} />
                 <div className='relative flex-1 overflow-hidden text-left' style={{ minHeight: '1.2em' }}>
                   <span>Click to </span>
                   <AnimatePresence mode='wait'>
@@ -140,16 +141,16 @@ const HeaderComponent = ({
                       initial={{ y: 15, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: -15, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      transition={{ duration: 0.3, ease: easeInOut }}
                       className='inline-block'
                     >
                       {availableCommands[currentCommandIndex]}
                     </motion.span>
                   </AnimatePresence>
                 </div>
-                <kbd className='bg-surface/20 hidden items-center justify-center rounded px-2 py-1 text-xs md:flex'>
-                  {isMac ? '⌘K' : 'Ctrl+K'}
-                </kbd>
+                <span className='bg-surface/20 hidden items-center justify-center rounded px-2 py-1 text-xs md:flex'>
+                  {`Search (${isMac ? '⌘K' : 'Ctrl+K'})`}
+                </span>
               </motion.div>
 
 
