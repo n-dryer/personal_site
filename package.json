@@ -54,69 +54,7 @@
       "last 1 safari version"
     ]
   },
-  "jest": {
-    "displayName": "frontend",
-    "rootDir": ".",
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
-    ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts",
-      "!src/index.tsx",
-      "!src/setupTests.ts",
-      "!src/types/**",
-      "!src/assets/**",
-      "!src/styles/**",
-      "!src/constants/**",
-      "!src/__mocks__/**"
-    ],
-    "coverageReporters": ["text", "lcov", "html"],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": [
-        "babel-jest",
-        {
-          "presets": [
-            ["@babel/preset-env", { "targets": { "node": "current" } }],
-            ["@babel/preset-react", { "runtime": "automatic" }],
-            "@babel/preset-typescript"
-          ]
-        }
-      ]
-    },
-    "moduleFileExtensions": ["js", "jsx", "ts", "tsx", "json"],
-    "transformIgnorePatterns": [
-      "node_modules/(?!(framer-motion|react-scroll-parallax)/)"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules/",
-      "<rootDir>/tests/",
-      "<rootDir>/test-results/",
-      "<rootDir>/playwright-report/",
-      ".*\\.spec\\.ts$",
-      ".*\\.e2e\\.ts$",
-      ".*playwright.*"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/tests/",
-      "/test-results/",
-      "/playwright-report/",
-      "src/index.tsx",
-      "src/setupTests.ts",
-      "src/types/",
-      "src/assets/",
-      "src/styles/",
-      "src/constants/",
-      "src/__mocks__/"
-    ]
-  },
+  
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@babel/core": "^7.24.0",
